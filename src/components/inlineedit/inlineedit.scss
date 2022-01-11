@@ -1,0 +1,29 @@
+.text__Container {
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 0.2rem;
+	border: 2px solid transparent;
+
+	&:hover, &:focus-within {
+		border: 2px solid #e7e9f0;
+	}
+
+	.inline-text_copy--active,
+	.inline-text_input--active {
+		font: inherit;
+		color: inherit;
+		text-align: inherit;
+		padding: 0;
+		background: none;
+		border: none;
+		outline: none;
+		cursor: pointer;
+	}
+
+	.inline-text_copy--hidden,
+	.inline-text_input--hidden {
+		display: none;
+	}
+}
