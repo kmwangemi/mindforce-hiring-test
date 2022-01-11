@@ -7,7 +7,7 @@ export interface IState {
 		thumbnailUrl: string;
 	};
 	IProps: {
-		albumsList: IState['AlbumTypes'][];
+		album: IState['AlbumTypes'];
 	};
 	AlbumsState: {
 		albumsList: IState['AlbumTypes'][];

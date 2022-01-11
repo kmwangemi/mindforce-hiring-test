@@ -19,15 +19,15 @@ const App: React.FC = (): JSX.Element => {
 	return (
 		<div className='Wrapper'>
 			{loading ? (
-            <div className="loader__container">
-               <Loader />
-            </div>
+				<div className='loader__container'>
+					<Loader />
+				</div>
 			) : error ? (
-            <div className="error__container">
-               <Message>{error}</Message>
-            </div>
+				<div className='error__container'>
+					<Message>{error}</Message>
+				</div>
 			) : (
-				<Card albumsList={albumsList} />
+				albumsList.map((album) => <Card key={album.id} album={album} />)
 			)}
 		</div>
 	);
