@@ -82,7 +82,7 @@ const InlineEdit = (props: any) => {
 			</span>
 			<input
 				ref={inputRef}
-            style={{ width: '100%' }}
+				style={{ width: '100%' }}
 				value={inputValue}
 				onChange={handleInputChange}
 				className={`inline-text_input inline-text_input--${
@@ -91,6 +91,6 @@ const InlineEdit = (props: any) => {
 			/>
 		</div>
 	);
-}
+};
 
 export default InlineEdit;
