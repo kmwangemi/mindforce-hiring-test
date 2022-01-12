@@ -11,7 +11,7 @@ import './App.scss';
 const App: React.FC = (): JSX.Element => {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(fetchAlbum(15));
+		dispatch(fetchAlbum(5));
 	}, [dispatch]);
 
 	// select store state
@@ -32,14 +32,16 @@ const App: React.FC = (): JSX.Element => {
 					albumsList.map((album) => <Card key={album.id} album={album} />)
 				)}
 			</main>
-			<div className='button__Container'>
-				<div className='reset__Wrapper'>
-					<button type='reset'>Reset</button>
+			{albumsList.length > 0 && (
+				<div className='button__Container'>
+					<div className='reset__Wrapper'>
+						<button type='reset'>Reset</button>
+					</div>
+					<div className='update__Wrapper'>
+						<button type='submit'>Confirm Update</button>
+					</div>
 				</div>
-				<div className='update__Wrapper'>
-					<button type='submit'>Confirm Update</button>
-				</div>
-			</div>
+			)}
 		</div>
 	);
 };
