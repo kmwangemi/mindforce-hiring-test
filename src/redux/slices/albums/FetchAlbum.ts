@@ -1,7 +1,9 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { IState } from '../../../types/index';
+
+// https://jsonplaceholder.typicode.com/photos?_start=5&_end=10
 
 // create album action
 export const fetchAlbum = createAsyncThunk<
@@ -21,8 +23,12 @@ export const fetchAlbum = createAsyncThunk<
 	}
 });
 
+const albumInfoFromStorage = sessionStorage.getItem('albumInfo')
+	? JSON.parse(sessionStorage.getItem('albumInfo'))
+	: [];
+
 const initialState = {
-	albumsList: [],
+	albumsList: albumInfoFromStorage,
 	loading: false,
 	error: null,
 } as IState['AlbumsState'];
@@ -30,7 +36,35 @@ const initialState = {
 const fetchAlbumSlice = createSlice({
 	name: 'albums',
 	initialState,
-	reducers: {},
+	reducers: {
+		update: (
+			state,
+			{ payload }: PayloadAction<{ id: number; title: string }>
+		) => {
+			const albumToEdit = state.albumsList.find(
+				(album: IState['AlbumTypes']) => album.id === payload.id
+			);
+			if (albumToEdit) {
+				albumToEdit.title = payload.title;
+				sessionStorage.setItem(
+					'albumInfo',
+					JSON.stringify(state.albumsList)
+				);
+				// sessionStorage.setItem(
+				// 	'albumResetInfo',
+				// 	JSON.stringify(state.albumsList)
+				// );
+			}
+		},
+		reset: (state) => {
+			let savedAlbumResetInfo = JSON.parse(
+				sessionStorage.getItem('albumResetInfo')
+			);
+			if (savedAlbumResetInfo) {
+				state.albumsList = savedAlbumResetInfo;
+			}
+		},
+	},
 	extraReducers: (builder) => {
 		// handle pending state
 		builder.addCase(fetchAlbum.pending, (state) => {
@@ -39,8 +73,11 @@ const fetchAlbumSlice = createSlice({
 		});
 		// handle fulfilled state
 		builder.addCase(fetchAlbum.fulfilled, (state, { payload }) => {
-			state.albumsList = payload;
 			state.loading = false;
+			// state.albumsList = payload;
+			sessionStorage.setItem('albumInfo', JSON.stringify(payload));
+			sessionStorage.setItem('albumResetInfo', JSON.stringify(payload));
+			state.albumsList = albumInfoFromStorage;
 		});
 		// handle reject state
 		builder.addCase(fetchAlbum.rejected, (state, { payload }) => {
@@ -49,5 +86,10 @@ const fetchAlbumSlice = createSlice({
 		});
 	},
 });
+
+export const {
+	update: updateAlbumActionCreator,
+	reset: resetAlbumActionCreator,
+} = fetchAlbumSlice.actions;
 
 export default fetchAlbumSlice.reducer;

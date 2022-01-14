@@ -8,6 +8,8 @@ export interface IState {
 	};
 	IProps: {
 		album: IState['AlbumTypes'];
+		// storedText: string;
+		// setStoredText: React.Dispatch<React.SetStateAction<string>>;
 	};
 	AlbumsState: {
 		albumsList: IState['AlbumTypes'][];

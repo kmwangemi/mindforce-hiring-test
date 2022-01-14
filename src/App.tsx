@@ -9,14 +9,15 @@ import Card from './components/card/Card';
 import './App.scss';
 
 const App: React.FC = (): JSX.Element => {
+	// select store state
+	const album = useSelector((state: RootState) => state.album);
+	const { albumsList, loading, error } = album;
+
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(fetchAlbum(5));
 	}, [dispatch]);
 
-	// select store state
-	const album = useSelector((state: RootState) => state.album);
-	const { albumsList, loading, error } = album;
 	return (
 		<div className='Wrapper'>
 			<main>
